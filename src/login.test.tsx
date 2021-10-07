@@ -1,11 +1,14 @@
 import {Login} from './login'
 import * as ReactDOM from 'react-dom'
 import React from 'react'
+import { fireEvent } from '@testing-library/dom'
+import { LoginService } from './services/LoginService'
 
 
 describe('Login component tests', () => {
 
     let container: HTMLDivElement
+    const loginServiceSpy=jest.spyOn(LoginService.prototype,'login')
    
 
     beforeEach(() => {
@@ -36,6 +39,17 @@ describe('Login component tests', () => {
        .toBe('login');
        expect(container.querySelector("[data-test='password-input']")?.getAttribute('name'))
        .toBe('password');
+    })
+
+    it('passes credentials correctly',() => {
+        const inputs = container.querySelectorAll('input')
+        const loginInput=inputs[0]
+        const passwordInput=inputs[1]
+        const loginButton=inputs[2]
+        fireEvent.change(loginInput,{target:{value:'someUser'}})
+        fireEvent.change(passwordInput,{target:{value:'somePass'}})
+        fireEvent.click(loginButton);
+        expect(loginServiceSpy).toBeCalledWith('someUser','somePass')
     })
 
 
