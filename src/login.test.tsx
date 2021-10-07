@@ -41,7 +41,7 @@ describe('Login component tests', () => {
        .toBe('password');
     })
 
-    it('passes credentials correctly',() => {
+    it.only('passes credentials correctly',() => {
         const inputs = container.querySelectorAll('input')
         const loginInput=inputs[0]
         const passwordInput=inputs[1]
